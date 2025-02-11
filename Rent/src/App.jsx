@@ -13,12 +13,12 @@ import {
   Virtualtour,
   Cheackout,
 } from "./Component/exports";
+
 function App() {
   const router = createBrowserRouter([
     {
       path: "/", // 1
       element: <Home />,
-      errorElement: <Notfound />,
     },
     {
       path: "/Login", // 2
