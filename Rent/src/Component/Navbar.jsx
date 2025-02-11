@@ -1,7 +1,6 @@
-import React from "react";
 
 function Navbar() {
-  return <div></div>;
+  return <div>dsdsf</div>;
 }
 
 export default Navbar;
