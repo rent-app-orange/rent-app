@@ -14,6 +14,7 @@ import {
   Cheackout,
 } from "./Component/exports";
 
+import Payment from "./Pages/Payment";
 function App() {
   const router = createBrowserRouter([
     {
@@ -70,6 +71,7 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
+      <Payment/>
     </>
   );
 }
