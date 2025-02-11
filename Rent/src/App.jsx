@@ -69,6 +69,7 @@ function App() {
   ]);
   return (
     <>
+    <Contact/>
       <RouterProvider router={router} />
     </>
   );
