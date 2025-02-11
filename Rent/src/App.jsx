@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Layout from "./Component/Layout"; // Import Layout component
 import {
   Home,
   Login,
@@ -18,53 +19,99 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/", // 1
-      element: <Home />,
+      element: (
+        <Layout>
+          <Home />
+        </Layout>
+      ), // Wrap Home in Layout
     },
     {
       path: "/Login", // 2
-      element: <Login />,
+      element: (
+        <Layout>
+          <Login />
+        </Layout>
+      ), // Wrap Login in Layout
     },
     {
       path: "/Register", // 3
-      element: <Register />,
+      element: (
+        <Layout>
+          <Register />
+        </Layout>
+      ), // Wrap Register in Layout
     },
     {
       path: "/Userprofile", // 4
-      element: <Userprofile />,
+      element: (
+        <Layout>
+          <Userprofile />
+        </Layout>
+      ), // Wrap Userprofile in Layout
     },
     {
       path: "/About", // 5
-      element: <About />,
+      element: (
+        <Layout>
+          <About />
+        </Layout>
+      ), // Wrap About in Layout
     },
     {
       path: "/Wishlist", // 6
-      element: <Wishlist />,
+      element: (
+        <Layout>
+          <Wishlist />
+        </Layout>
+      ), // Wrap Wishlist in Layout
     },
     {
       path: "/Propertydetils", // 7
-      element: <Propertydetils />,
+      element: (
+        <Layout>
+          <Propertydetils />
+        </Layout>
+      ), // Wrap Propertydetils in Layout
     },
     {
       path: "/Dashboard", // 8
-      element: <Dashboard />,
+      element: (
+        <Layout>
+          <Dashboard />
+        </Layout>
+      ), // Wrap Dashboard in Layout
     },
     {
       path: "/Createapartment", // 9
-      element: <Createapartment />,
+      element: (
+        <Layout>
+          <Createapartment />
+        </Layout>
+      ), // Wrap Createapartment in Layout
     },
     {
       path: "/contact", // 10
-      element: <Contact />,
+      element: (
+        <Layout>
+          <Contact />
+        </Layout>
+      ), // Wrap Contact in Layout
     },
-
     {
       path: "/Virtualtour", // 11
-      element: <Virtualtour />,
+      element: (
+        <Layout>
+          <Virtualtour />
+        </Layout>
+      ), // Wrap Virtualtour in Layout
     },
-
     {
       path: "/Cheackout", // 12
-      element: <Cheackout />,
+      element: (
+        <Layout>
+          <Cheackout />
+        </Layout>
+      ), // Wrap Cheackout in Layout
     },
   ]);
   return (
