@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./Component/Layout"; // Import Layout component
+import Reviews from "./Pages/Reviews";
 import {
   Home,
   Login,
@@ -116,8 +117,11 @@ function App() {
   ]);
   return (
     <>
-    <Contact/>
+  
       <RouterProvider router={router} />
+
+      {/* <Reviews/> */}
+        <Contact/>
     </>
   );
 }
