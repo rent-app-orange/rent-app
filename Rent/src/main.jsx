@@ -7,5 +7,6 @@ import store from "../src/Redux/Store.jsx";
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <App />
+    
   </Provider>
 );
