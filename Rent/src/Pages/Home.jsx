@@ -429,7 +429,7 @@ const Home = () => {
 
 {/*   way to rent house  */}
 
-<section className="bg-gradient-to-b from-[#F7F7F7] to-[#EDE7FD] py-16">
+<section className="bg-gradient-to-b from-[#F7F7F7] to-[#091057] py-16">
   <div className="container mx-auto text-center">
     <h2 className="text-4xl font-bold text-[#091057] mb-12">How to Rent a Home</h2>
     <div className="flex flex-col md:flex-row items-center justify-center gap-12">
