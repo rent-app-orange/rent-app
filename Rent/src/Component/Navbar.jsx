@@ -109,7 +109,7 @@ function Navbar() {
                   className="block px-4 py-2 hover:bg-[#EC8305] hover:text-white transition"
                   onMouseDown={(e) => e.preventDefault()} // يمنع الإغلاق قبل النقر
                 >
-User Profile                </Link>
+                          User Profile                </Link>
                 <Link
                   to="/contact"
                   className="block px-4 py-2 hover:bg-[#EC8305] hover:text-white transition"
