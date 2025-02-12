@@ -76,6 +76,7 @@ const Register = () => {
   };
 
   return (
+<<<<<<< HEAD
   <>
   <section className="bg-white">
   <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -172,6 +173,10 @@ const Register = () => {
           </span>
         </li>
       </ul>
+=======
+    <div>
+      Register
+>>>>>>> 09c38b502bc314af13cf507649d557d44958b1d2
     </div>
   </div>
 </div>

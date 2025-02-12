@@ -70,6 +70,7 @@ const Login = () => {
   };
 
   return (
+<<<<<<< HEAD
   <>
   <section className="bg-white">
   <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -166,6 +167,10 @@ const Login = () => {
           </span>
         </li>
       </ul>
+=======
+    <div>
+      Login
+>>>>>>> 09c38b502bc314af13cf507649d557d44958b1d2
     </div>
   </div>
 </div>
