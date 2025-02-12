@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import React from 'react'
 
 function Userprofile() {
@@ -10,5 +8,5 @@ function Userprofile() {
   )
 }
 
-export default Userprofile
->>>>>>> 09c38b502bc314af13cf507649d557d44958b1d2
+export default Userprofile;
+

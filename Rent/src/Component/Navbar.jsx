@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { useState } from "react";
-=======
-import React, { useState, useRef } from "react";
->>>>>>> 09c38b502bc314af13cf507649d557d44958b1d2
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/Screenshot 2025-02-11 214307.png";
 import owner from "../assets/sign-form.png";
@@ -12,17 +8,7 @@ function Navbar() {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  const [searchValues, setSearchValues] = useState({
-    location: "",
-    checkIn: "",
-    checkOut: "",
-    guests: "",
-  });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setSearchValues({ ...searchValues, [name]: value });
-  };
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -105,13 +91,6 @@ function Navbar() {
               <div className="absolute right-0 mt-3 w-56 bg-white shadow-lg rounded-lg py-2 z-50">
                 <Link
                   to="/Register"
-<<<<<<< HEAD
-                  className="block px-4 py-2 hover:bg-gray-100"
-                >
-                  Sign up
-                </Link>
-                <Link to="/Login" className="block px-4 py-2 hover:bg-gray-100">
-=======
                   className="block px-4 py-2 hover:bg-[#EC8305] hover:text-white transition"
                   onMouseDown={(e) => e.preventDefault()} // يمنع الإغلاق قبل النقر
                 >
@@ -122,7 +101,6 @@ function Navbar() {
                   className="block px-4 py-2 hover:bg-[#EC8305] hover:text-white transition"
                   onMouseDown={(e) => e.preventDefault()}
                 >
->>>>>>> 09c38b502bc314af13cf507649d557d44958b1d2
                   Log in
                 </Link>
                 <hr className="my-1" />

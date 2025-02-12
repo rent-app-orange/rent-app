@@ -76,7 +76,6 @@ const Register = () => {
   };
 
   return (
-<<<<<<< HEAD
   <>
   <section className="bg-white">
   <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -173,10 +172,6 @@ const Register = () => {
           </span>
         </li>
       </ul>
-=======
-    <div>
-      Register
->>>>>>> 09c38b502bc314af13cf507649d557d44958b1d2
     </div>
   </div>
 </div>
@@ -295,7 +290,7 @@ const Register = () => {
                 type="submit"
                 className="inline-flex items-center justify-center w-full px-4 py-4 text-base font-semibold text-white transition-all duration-200 border border-transparent rounded-md bg-gradient-to-r from-fuchsia-600 to-blue-600 focus:outline-none hover:opacity-80 focus:opacity-80"
               >
-                 Sign up
+                Register
               </button>
             
             </div>
