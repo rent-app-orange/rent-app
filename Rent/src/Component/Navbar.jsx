@@ -8,17 +8,7 @@ function Navbar() {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  const [searchValues, setSearchValues] = useState({
-    location: "",
-    checkIn: "",
-    checkOut: "",
-    guests: "",
-  });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setSearchValues({ ...searchValues, [name]: value });
-  };
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
