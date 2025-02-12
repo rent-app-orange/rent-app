@@ -114,8 +114,11 @@ function App() {
       ), // Wrap Cheackout in Layout
     },
   ]);
-
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
 export default App;

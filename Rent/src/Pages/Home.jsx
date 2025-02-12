@@ -5,7 +5,7 @@ import { FaBed, FaCheckCircle, FaTag, FaHeadset } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { FaSearch } from "react-icons/fa";
 import calendarIcon from "../assets/calendar.png";
-import calendarIconAlt from "../assets/calendar (1).png";
+import calendarIconAlt from "../assets/diskette (1).png";
 
 
 
@@ -177,7 +177,7 @@ const Home = () => {
                     </p>
 
                     {/* Search Bar */}
-                    <div className="mt-6 flex flex-col sm:flex-row items-center bg-white shadow-lg rounded-lg p-3">
+                    <div className="mt-6 flex flex-col sm:flex-row items-center bg- bg-white shadow-lg rounded-lg p-3">
                         <input
                             type="text"
                             placeholder="Search by city, university, or property"
@@ -265,7 +265,7 @@ const Home = () => {
           <ChevronRight size={24} />
         </button>
 
-        <button className="absolute top-4 right-4 bg-transparent rounded-full p-2 shadow-md">
+        <button className="absolute top-4 right-4 bg-white  rounded-full p-2 shadow-md">
           <img src={property.isBooked ? calendarIcon : calendarIconAlt} alt="Calendar Icon" className="w-6 h-6" />
         </button>
 
@@ -384,7 +384,7 @@ const Home = () => {
           <ChevronRight size={24} />
         </button>
 
-        <button className="absolute top-4 right-4 bg-transparent rounded-full p-2 shadow-md">
+        <button className="absolute top-4 right-4 bg- bg-white rounded-full p-2 shadow-md">
           <img src={property.isBooked ? calendarIcon : calendarIconAlt} alt="Calendar Icon" className="w-6 h-6" />
         </button>
 
