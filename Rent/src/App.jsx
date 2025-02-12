@@ -4,7 +4,6 @@ import {
   Home,
   Login,
   Register,
-  Userprofile,
   Createapartment,
   Propertydetils,
   Dashboard,
@@ -45,7 +44,7 @@ function App() {
       path: "/Userprofile", // 4
       element: (
         <Layout>
-          <Userprofile />
+  
         </Layout>
       ), // Wrap Userprofile in Layout
     },
