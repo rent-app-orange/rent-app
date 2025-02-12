@@ -121,7 +121,7 @@ function App() {
       <RouterProvider router={router} />
 
       {/* <Reviews/> */}
-        <Contact/>
+        {/* <Contact/> */}
     </>
   );
 }
