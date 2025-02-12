@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { auth, database } from "../Firebase/Configration";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { ref, set } from "firebase/database";
+import { ref, get, set  } from "firebase/database";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/authSlice";
 import { Link, useNavigate } from "react-router-dom";
@@ -33,17 +33,33 @@ const Login = () => {
       // تسجيل الدخول باستخدام Firebase Authentication
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+    
+      const userRef = ref(database, "users/" + user.uid);
+      const snapshot = await get(userRef);
+
+      if (snapshot.exists()) {
+        const userData = snapshot.val();
+
+          // التحقق مما إذا كان المستخدم محظورًا
+      if (userData.blocked) {
+        alert("Your account is blocked. You cannot log in.");
+        return;
+      }
   
       // تحديث حالة Redux وتخزين بيانات المستخدم
       dispatch(setUser({ uid: user.uid, email: user.email }));
-  
+
       // إعادة توجيه المستخدم إلى الصفحة الرئيسية
       navigate("/");
-    } catch (error) {
-      console.error("Error login in:", error.message);
-      alert("Invalid email or password. Please try again.");
+    } else {
+      alert("User data not found.");
     }
-  };
+  } catch (error) {
+    console.error("Error logging in:", error.message);
+    alert("Invalid email or password. Please try again.");
+  }
+};
+
 
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
@@ -51,13 +67,27 @@ const Login = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
   
-      // تخزين بيانات المستخدم في Firebase Realtime Database
+      const userRef = ref(database, "users/" + user.uid);
+      const snapshot = await get(userRef); 
+
+    if (snapshot.exists()) {
+      const userData = snapshot.val();
+
+      // التحقق مما إذا كان المستخدم محظورًا
+      if (userData.blocked) {
+        alert("Your account is blocked. You cannot log in.");
+        return;
+      }
+    } else {
+      // إذا لم يكن للمستخدم بيانات، احفظ بياناته في قاعدة البيانات
       await set(ref(database, "users/" + user.uid), {
         name: user.displayName,
         email: user.email,
         id: user.uid,
+        blocked: false, // بشكل افتراضي غير محظور
       });
-  
+    }
+ 
       // تحديث حالة Redux وتخزين بيانات المستخدم
       dispatch(setUser({ uid: user.uid, email: user.email }));
   
@@ -71,112 +101,111 @@ const Login = () => {
 
   return (
   <>
-  <section className="bg-white">
-  <div className="grid grid-cols-1 lg:grid-cols-2">
-  <div className="relative flex items-end px-4 pb-10 pt-60 sm:pb-16 md:justify-center lg:pb-24 bg-gray-50 sm:px-6 lg:px-8">
-  <div className="absolute inset-0">
-    <img
-      className="object-cover w-full h-full"
-      src="https://i.pinimg.com/736x/21/b4/ab/21b4ab78190743312c8406486e44b5dc.jpg" 
-      alt="Modern apartment building with green surroundings"
-    />
-  </div>
-  <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
-  <div className="relative">
-    <div className="w-full max-w-xl xl:w-full xl:mx-auto xl:pr-24 xl:max-w-xl">
-      <h3 className="text-4xl font-bold text-white">
-        Find Your Perfect Home & <br className="hidden xl:block" />
-        Rent It Online Today!
-      </h3>
-      <ul className="grid grid-cols-1 mt-10 sm:grid-cols-2 gap-x-8 gap-y-4">
-        <li className="flex items-center space-x-3">
-          <div className="inline-flex items-center justify-center flex-shrink-0 w-5 h-5 bg-blue-500 rounded-full">
+    
+<section className="py-10 bg-[#091057] sm:py-16 lg:py-24">
+  <div className="max-w-6xl px-4 mx-auto sm:px-6 lg:px-8">
+    <div className="grid grid-cols-1 md:items-stretch md:grid-cols-2 gap-x-12 lg:gap-x-20 gap-y-10">
+      <div className="flex flex-col justify-between lg:py-5">
+        <div>
+          <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:leading-tight lg:text-5xl">
+          Find Your Perfect Home &  Rent It Online Today!
+          </h2>
+          <p className="max-w-xl mx-auto mt-4 text-base leading-relaxed text-white">
+          Our platform is designed to connect tenants with landlords seamlessly, offering a fast, secure, and user-friendly experience.
+          </p>
+          <img
+            className="relative z-10 max-w-xs mx-auto -mb-16 md:hidden"
+            src="https://cdn.rareblocks.xyz/collection/celebration/images/contact/4/curve-line-mobile.svg"
+            alt=""
+          />
+          <img
+            className="hidden w-full translate-x-24 translate-y-8 md:block"
+            src="https://cdn.rareblocks.xyz/collection/celebration/images/contact/4/curve-line.svg"
+            alt=""
+          />
+        </div>
+        <div className="hidden md:mt-auto md:block">
+          <div className="flex items-center">
             <svg
-              className="w-3.5 h-3.5 text-white"
+              className="w-6 h-6 text-[#EC8305]"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
-              <path
-                fillRule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clipRule="evenodd"
-              />
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
-          </div>
-          <span className="text-lg font-medium text-white">
-            Browse Thousands of Properties
-          </span>
-        </li>
-        <li className="flex items-center space-x-3">
-          <div className="inline-flex items-center justify-center flex-shrink-0 w-5 h-5 bg-blue-500 rounded-full">
             <svg
-              className="w-3.5 h-3.5 text-white"
+              className="w-6 h-6 text-[#EC8305]"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
-              <path
-                fillRule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clipRule="evenodd"
-              />
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
-          </div>
-          <span className="text-lg font-medium text-white">
-            Virtual Tours for Every Property
-          </span>
-        </li>
-        <li className="flex items-center space-x-3">
-          <div className="inline-flex items-center justify-center flex-shrink-0 w-5 h-5 bg-blue-500 rounded-full">
             <svg
-              className="w-3.5 h-3.5 text-white"
+              className="w-6 h-6 text-[#EC8305]"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
-              <path
-                fillRule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clipRule="evenodd"
-              />
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
-          </div>
-          <span className="text-lg font-medium text-white">
-            Secure Online Rental Process
-          </span>
-        </li>
-        <li className="flex items-center space-x-3">
-          <div className="inline-flex items-center justify-center flex-shrink-0 w-5 h-5 bg-blue-500 rounded-full">
             <svg
-              className="w-3.5 h-3.5 text-white"
+              className="w-6 h-6 text-[#EC8305]"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
-              <path
-                fillRule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clipRule="evenodd"
-              />
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+            <svg
+              className="w-6 h-6 text-[#EC8305]"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
           </div>
-          <span className="text-lg font-medium text-white">
-            Dedicated Support for Landlords & Renters
-          </span>
-        </li>
-      </ul>
-    </div>
-  </div>
+          <blockquote className="mt-6">
+            <p className="text-lg leading-relaxed text-white">
+            your ultimate destination for finding the perfect rental home tailored to your needs! Whether you're a student looking for a quiet place to study, a family seeking a cozy home to settle into, or an individual searching for independence and comfort, we’ve got you covered. 
+            </p>
+          </blockquote>
+          <div className="flex items-center mt-8">
+  <img
+    className="flex-shrink-0 object-cover w-10 h-10 rounded-full"
+    src="https://i.pinimg.com/736x/f2/6f/b2/f26fb261a82ad94d6186690d8d38820c.jpg"
+    alt=""
+  />
+  <img
+    className="flex-shrink-0 object-cover w-10 h-10 rounded-full "
+    src="https://i.pinimg.com/736x/97/40/14/974014c3ad33151bd49e2a6b299c6d52.jpg"
+    alt=""
+  />
+  <img
+    className="flex-shrink-0 object-cover w-10 h-10 rounded-full "
+    src="https://i.pinimg.com/736x/3c/dc/e9/3cdce91b109f9259cb89778f91b9f7e5.jpg"
+    alt=""
+  />
+   <img
+    className="flex-shrink-0 object-cover w-10 h-10 rounded-full "
+    src="https://i.pinimg.com/736x/31/c6/9f/31c69fd0219dba82486a4293c4ff8a73.jpg"
+    alt=""
+  />
+  
 </div>
-    <div className="flex items-center justify-center px-4 py-10 bg-white sm:px-6 lg:px-8 sm:py-16 lg:py-24">
+        </div>
+      </div>
+
+      <div className="flex items-center justify-center px-4 py-10 bg-white sm:px-6 lg:px-8 sm:py-16 lg:py-24 rounded-[50px]">
       <div className="xl:w-full xl:max-w-sm 2xl:max-w-md xl:mx-auto">
-      <h1 className="text-3xl font-bold leading-tight text-black sm:text-4xl">Login to <span className="text-red-500  font-bold">HabiRent</span></h1>
+      <h1 className="text-3xl font-bold leading-tight text-black sm:text-4xl">Login to <span className="text-[#EC8305]  font-bold">HabiRent</span></h1>
         <p className="mt-2 text-base text-gray-600">
   Don't have an account?{" "}
   <Link
     to="/Register"
-    className="font-medium text-blue-600 transition-all duration-200 hover:text-blue-700 focus:text-blue-700 hover:underline"
+    className="font-medium text-blue-800 transition-all duration-200 hover:text-blue-700 focus:text-blue-700 hover:underline"
   >
     Register Now
   </Link>
@@ -264,7 +293,7 @@ const Login = () => {
           >
             <div className="absolute inset-y-0 left-0 p-4">
               <svg
-                className="w-6 h-6 text-rose-500"
+                className="w-6 h-6 text-[#EC8305]"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
@@ -280,7 +309,7 @@ const Login = () => {
           <a
             href="https://www.realpage.com/legal/privacy-policy/"
             title=""
-            className="text-blue-600 transition-all duration-200 hover:underline hover:text-blue-700"
+            className="text-blue-800 transition-all duration-200 hover:underline hover:text-blue-700"
           >
             Privacy Policy
           </a>{" "}
@@ -288,11 +317,77 @@ const Login = () => {
           <a
             href="https://istd.gov.jo/ebv4.0/root_storage/en/eb_list_page/general_sales_tax_law_and_its_amendments_2023-1.pdf"
             title=""
-            className="text-blue-600 transition-all duration-200 hover:underline hover:text-blue-700"
+            className="text-blue-800 transition-all duration-200 hover:underline hover:text-blue-700"
           >
             Terms of Service
           </a>
         </p>
+      </div>
+    </div>
+
+
+
+      <div className="md:hidden">
+        <div className="flex items-center">
+          <svg
+            className="w-6 h-6 text-yellow-400"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+          <svg
+            className="w-6 h-6 text-yellow-400"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+          <svg
+            className="w-6 h-6 text-yellow-400"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+          <svg
+            className="w-6 h-6 text-yellow-400"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+          <svg
+            className="w-6 h-6 text-yellow-400"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+        </div>
+        <blockquote className="mt-6">
+          <p className="text-lg leading-relaxed text-white">
+            You made it so simple. My new site is so much faster and easier to
+            work with than my old site. I just choose the page, make the change
+            and click save.
+          </p>
+        </blockquote>
+        <div className="flex items-center mt-8">
+          <img
+            className="flex-shrink-0 object-cover w-10 h-10 rounded-full"
+            src="https://cdn.rareblocks.xyz/collection/celebration/images/contact/4/avatar.jpg"
+            alt=""
+          />
+          <div className="ml-4">
+            <p className="text-base font-semibold text-white">Jenny Wilson</p>
+            <p className="mt-px text-sm text-gray-400">Product Designer</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

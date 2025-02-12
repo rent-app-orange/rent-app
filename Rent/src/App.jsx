@@ -4,7 +4,6 @@ import {
   Home,
   Login,
   Register,
-  Userprofile,
   Createapartment,
   Propertydetils,
   Dashboard,
@@ -13,6 +12,8 @@ import {
   Wishlist,
   Virtualtour,
   Cheackout,
+  Userprofile,
+  
 } from "./Component/exports";
 
 function App() {
@@ -41,14 +42,7 @@ function App() {
         </Layout>
       ), // Wrap Register in Layout
     },
-    {
-      path: "/Userprofile", // 4
-      element: (
-        <Layout>
-  <Userprofile/>
-        </Layout>
-      ), // Wrap Userprofile in Layout
-    },
+ 
     {
       path: "/About", // 5
       element: (
@@ -113,6 +107,15 @@ function App() {
         </Layout>
       ), // Wrap Cheackout in Layout
     },
+    {
+      path: "/Userprofile", // 12
+      element: (
+        <Layout>
+          <Userprofile />
+        </Layout>
+      ), // Wrap Cheackout in Layout
+    },
+
   ]);
   return (
     <>
