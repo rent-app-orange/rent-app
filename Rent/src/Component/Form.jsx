@@ -2,7 +2,7 @@ import { getDatabase } from "firebase/database";
 
 import { useState } from "react";
 
-const PropertyList = () => {
+export default function PropertyList() {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -19,7 +19,6 @@ const PropertyList = () => {
       style={{ backgroundColor: "#F7F7F7" }}
     >
       <form
-        // onSubmit={handleSubmit}
         className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg"
       >
         <h2
@@ -137,17 +136,6 @@ const PropertyList = () => {
           />
         </div>
 
-        {/* Video Preview */}
-        {/* {formData.video && (
-          <video
-            controls
-            src={URL.createObjectURL(formData.video)}
-            className="w-full mt-4"
-          >
-            Your browser does not support the video tag.
-          </video>
-        )} */}
-
         {/* Input for ownership document */}
         <div className="mt-4">
           <label
@@ -177,6 +165,4 @@ const PropertyList = () => {
       </form>
     </div>
   );
-};
-
-export default PropertyList;
+}
