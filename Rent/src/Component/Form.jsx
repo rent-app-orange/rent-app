@@ -16,11 +16,11 @@ export default function PropertyList() {
     images: "", // تخزين الصورة باستخدام Base64
     video: "",
     thumbnail: "",
-    approve: "pending",
+    approve: false,
     booking_duration: "",
     daily_booking: " ",
-    payment: "pending",
-    availability: "pending",
+    payment: false,
+    availability: false,
     room_types: {},
   });
 

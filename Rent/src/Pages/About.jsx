@@ -5,7 +5,7 @@ export default function ShowData() {
   const formData = useSelector((state) => state.showData.formData);
 
   return (
-    <>ddd</>
+    <>Coming soon</>
     // <div className="flex justify-center items-center min-h-screen p-6">
     //   <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-xl">
     //     <h2 className="text-3xl font-bold text-center text-blue-900 mb-4">
