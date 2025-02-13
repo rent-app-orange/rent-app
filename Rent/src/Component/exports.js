@@ -10,3 +10,6 @@ export { default as Contact } from "../Pages/Contact.jsx";
 export { default as About } from "../Pages/About.jsx";
 export { default as Wishlist } from "../Pages/Wishlist.jsx";
 export { default as Createapartment } from "../Pages/Createapartment.jsx";
+export { default as Userprofile } from "../Pages/Userprofile.jsx";
+export { default as FindaStay } from "../Pages/FindaStay.jsx";
+export { default as Portal } from "../Pages/Portal.jsx";
