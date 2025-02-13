@@ -1,24 +1,36 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 
 const initialState = {
-  name: "",
-  description: "",
-  location: "",
-  price: "",
-  images: [],
-  video: null,
-  thumbnail: null,
-  availability: false,
-  approve: false,
-  payment: false,
+  formData: {
+    name: "",
+    description: "",
+    location: "",
+    price: "",
+    images: "",
+    thumbnail: "",
+    availability: "pending",
+    approve: "pending",
+    payment: "pending",
+  },
 };
 
 const showSlice = createSlice({
   name: "showData",
   initialState,
-  reducers: {},
+  reducers: {
+    updateDataForm: (state, action) => {
+      state.formData = { ...action.payload };
+      state.formData.name = action.payload.name;
+      state.formData.description = action.payload.description;
+      state.formData.location = action.payload.location;
+      state.formData.price = action.payload.price;
+      state.formData.images = action.payload.images;
+      state.formData.thumbnail = action.payload.thumbnail;
+      // If house is not part of the state, remove the following line:
+      // state.house = action.payload;
+    },
+  },
 });
 
-// export const [ حطو الاكشن تاعيتكم] = showSlice.actions;
+export const { updateDataForm } = showSlice.actions;
 export default showSlice.reducer;
