@@ -12,6 +12,7 @@ import {
   Wishlist,
   Virtualtour,
   Cheackout,
+  Portal,
   Userprofile,
   
 } from "./Component/exports";
@@ -112,6 +113,14 @@ function App() {
       element: (
         <Layout>
           <Userprofile />
+        </Layout>
+      ), // Wrap Cheackout in Layout
+    },
+    {
+      path: "/Portal", // 12
+      element: (
+        <Layout>
+          <Portal />
         </Layout>
       ), // Wrap Cheackout in Layout
     },

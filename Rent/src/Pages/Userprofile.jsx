@@ -3,59 +3,88 @@ import axios from "axios";
 import { auth, onAuthStateChanged } from "../Firebase/Configration";
 
 const UserProfile = () => {
+    
     const [formData, setFormData] = useState({
-        Username: "",
+        name: "",
         email: "",
-        birthdate: "",
-        phoneNumber: "",
+        phone: "",
         gender: "male",
     });
 
     const [userId, setUserId] = useState(null);
+    const [rentedProperties, setRentedProperties] = useState([]);
 
-    // عند تحميل الصفحة، جلب بيانات المستخدم
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 setUserId(user.uid);
                 fetchUserData(user.uid);
+                fetchRentedProperties();
             }
         });
     }, []);
 
-    // جلب بيانات المستخدم من Firebase باستخدام Axios
     const fetchUserData = async (uid) => {
         try {
             const response = await axios.get(
                 `https://rent-app-a210b-default-rtdb.firebaseio.com/users/${uid}.json`
             );
             if (response.data) {
-                setFormData(response.data);
+                setFormData({
+                    name: response.data.name || "",
+                    email: response.data.email || "",
+                    phone: response.data.phone || "",  
+                    gender: response.data.gender || "male",
+                });
             }
         } catch (error) {
             console.error("Error fetching user data:", error);
         }
     };
 
-    // تحديث البيانات عند إدخال المستخدم لمعلومات جديدة
+    const fetchRentedProperties = async () => {
+        try {
+            const response = await axios.get("https://jsonplaceholder.typicode.com/posts");
+            const fakeData = response.data.slice(0, 5).map((item, index) => ({
+                id: item.id,
+                title: item.title,
+                totalPayment: (index + 1) * 500,
+                isPaid: index % 2 === 0,
+            }));
+            setRentedProperties(fakeData);
+        } catch (error) {
+            console.error("Error fetching rented properties:", error);
+        }
+    };
+
+    // ✅ تحديث البيانات عند تغيير المستخدم لمعلوماته
     const handleChange = async (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
 
-        // تحديث `gender` مباشرة في Firebase عند تغييره
-        if (name === "gender" && userId) {
+        // ✅ تحديث القيم في Firebase عند تغيير `gender` أو `phone`
+        if ((name === "gender" || name === "phone") && userId) {
             try {
+                // ✅ التحقق من رقم الهاتف إذا كان الإدخال يخصه
+                if (name === "phone") {
+                    const phoneRegex = /^07\d{8}$/; // تحقق من تنسيق الهاتف الأردني
+                    if (!phoneRegex.test(value)) {
+                        alert("The phone number must be 10 digits long and start with 07.");
+                        return;
+                    }
+                }
+
+                // ✅ تحديث القيمة في Firebase
                 await axios.patch(
                     `https://rent-app-a210b-default-rtdb.firebaseio.com/users/${userId}.json`,
-                    { gender: value }
+                    { [name]: value }
                 );
             } catch (error) {
-                console.error("Error updating gender in Firebase:", error);
+                console.error(`Error updating ${name} in Firebase:`, error);
             }
         }
     };
 
-    // تحديث البيانات في Firebase باستخدام Axios عند حفظ التعديلات
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (userId) {
@@ -72,19 +101,18 @@ const UserProfile = () => {
     };
 
     return (
-        
         <div className="bg-gradient-to-b from-[#F7F7F7] to-[#EDE7FD] min-h-screen py-10 flex flex-col items-center">
             
             {/* Profile Picture Section */}
             <div className="bg-white shadow-lg rounded-lg p-6 text-center w-full max-w-5xl mb-6">
                 <h2 className="text-lg font-semibold text-gray-700 mb-4">Profile Picture</h2>
                 <img
-    className="w-40 h-40 mx-auto rounded-full object-cover mb-4"
-    src={formData.gender === "female"
-        ? "https://i.pinimg.com/736x/f4/fa/fa/f4fafaf122d00f0775aa586b8a061d0b.jpg" // صورة الأنثى
-        : "https://i.pinimg.com/736x/1a/5c/27/1a5c272b9fbd51bf655c44e1c5c2fb7f.jpg"} // صورة الذكر (الافتراضية)
-    alt="Profile Picture"
-/>
+                    className="w-40 h-40 mx-auto rounded-full object-cover mb-4"
+                    src={formData.gender === "female"
+                        ? "https://i.pinimg.com/736x/f4/fa/fa/f4fafaf122d00f0775aa586b8a061d0b.jpg" 
+                        : "https://i.pinimg.com/736x/1a/5c/27/1a5c272b9fbd51bf655c44e1c5c2fb7f.jpg"} 
+                    alt="Profile Picture"
+                />
                 <select
                     name="gender"
                     className="w-full border border-gray-300 rounded-md p-2"
@@ -109,9 +137,9 @@ const UserProfile = () => {
                                 <label className="block text-gray-600 font-medium">Username</label>
                                 <input
                                     type="text"
-                                    name="username"
+                                    name="name"
                                     className="w-full border border-gray-300 rounded-md p-2"
-                                    value={formData.firstName}
+                                    value={formData.name}
                                     onChange={handleChange}
                                     required
                                 />
@@ -130,23 +158,12 @@ const UserProfile = () => {
                             </div>
 
                             <div className="mt-4">
-                                <label className="block text-gray-600 font-medium">Date of Birth</label>
-                                <input
-                                    type="date"
-                                    name="birthdate"
-                                    className="w-full border border-gray-300 rounded-md p-2"
-                                    value={formData.birthdate}
-                                    onChange={handleChange}
-                                />
-                            </div>
-
-                            <div className="mt-4">
                                 <label className="block text-gray-600 font-medium">Phone Number</label>
                                 <input
                                     type="text"
-                                    name="phoneNumber"
+                                    name="phone"
                                     className="w-full border border-gray-300 rounded-md p-2"
-                                    value={formData.phoneNumber}
+                                    value={formData.phone}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -162,7 +179,19 @@ const UserProfile = () => {
                 <div className="bg-white shadow-lg rounded-lg p-6 min-h-[400px] flex flex-col">
                     <h2 className="text-lg font-semibold text-gray-700 mb-4">Show Your Properties</h2>
                     <hr />
-                    {/* يمكنك إضافة محتوى هنا */}
+                    {rentedProperties.length > 0 ? (
+                        <ul className="mt-4">
+                            {rentedProperties.map((property) => (
+                                <li key={property.id} className="border-b py-2">
+                                    <h3 className="text-md font-semibold">{property.title}</h3>
+                                    <p>Total Payment: ${property.totalPayment}</p>
+                                    <p>Status: {property.isPaid ? <span className="text-green-500">Paid</span> : <span className="text-red-500">Unpaid</span>}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p className="text-gray-500 mt-4">No properties rented yet.</p>
+                    )}
                 </div>
             </div>
         </div>

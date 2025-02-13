@@ -2,7 +2,7 @@ import { useState } from "react";
 import { auth, database } from "../Firebase/Configration";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { ref, set } from "firebase/database";
+import { ref, set, get } from "firebase/database";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/authSlice";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,6 +11,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -18,11 +19,18 @@ const Register = () => {
     e.preventDefault();
 
     // التحقق من أن جميع الحقول مملوءة
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !phone) {
       alert("Please fill in all fields.");
       return;
     }
     
+     // ✅ التحقق من الاسم الرباعي
+     const nameRegex = /^[\u0600-\u06FFa-zA-Z]+\s[\u0600-\u06FFa-zA-Z]+\s[\u0600-\u06FFa-zA-Z]+\s[\u0600-\u06FFa-zA-Z]+$/;
+     const trimmedName = name.trim();
+     if (!nameRegex.test(trimmedName)) {
+       alert("Please enter the full name with a space between each part");
+       return;
+     }
      
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
@@ -39,6 +47,12 @@ const Register = () => {
     return;
   }
 
+  // ✅ التحقق من رقم الهاتف (يبدأ بـ 07 ويتكون من 10 أرقام)
+  const phoneRegex = /^07\d{8}$/;
+  if (!phoneRegex.test(phone)) {
+    alert("The phone number must be 10 digits long and start with 07");
+    return;
+  }
 
     try {
       // إنشاء حساب جديد باستخدام Firebase Authentication
@@ -49,12 +63,14 @@ const Register = () => {
       await set(ref(database, "users/" + user.uid), {
         name,
         email,
+        phone,
         id: user.uid, // إضافة ID الخاص بالمستخدم
         blocked: false, // جعل المستخدم غير محظور افتراضيًا
       });
 
       // تحديث حالة Redux وتخزين بيانات المستخدم
-      dispatch(setUser({ uid: user.uid, email, name }));
+      dispatch(setUser({ id: user.uid, name, email, phone  }));
+     
 
       // إعادة توجيه المستخدم إلى الصفحة الرئيسية
       navigate("/");
@@ -70,25 +86,35 @@ const Register = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
   
-      // تخزين بيانات المستخدم في Firebase Realtime Database
-      await set(ref(database, "users/" + user.uid), {
+      // التحقق مما إذا كان المستخدم موجودًا بالفعل في قاعدة البيانات
+      const userRef = ref(database, "users/" + user.uid);
+      const snapshot = await get(userRef);
+  
+     
+    let userData;
+
+    if (!snapshot.exists()) {
+      // ✅ المستخدم جديد، قم بتخزين بياناته في Firebase
+      userData = {
+        id: user.uid,
         name: user.displayName,
         email: user.email,
-        id: user.uid,
         blocked: false,
-      });
-  
-      // تحديث حالة Redux وتخزين بيانات المستخدم
-      dispatch(setUser({ uid: user.uid, email: user.email, name: user.displayName }));
-  
-      // إعادة توجيه المستخدم إلى الصفحة الرئيسية
+      };
+
+      await set(userRef, userData);
+    } else {
+      // ✅ المستخدم موجود مسبقًا، استرجاع بياناته من Firebase
+      userData = snapshot.val();
+    }
+
+    // ✅ تحديث Redux بـ `id`, `name`, `email`
+    dispatch(setUser({ id: userData.id, name: userData.name, email: userData.email }));
       navigate("/");
     } catch (error) {
-      console.error("Error signing in with Google:", error.message);
-      alert("An error occurred during Google login. Please try again.");
+      alert("Error signing in with Google:", error.message);
     }
   };
-
   return (
   <>
 <section className="py-10 bg-[#091057] sm:py-16 lg:py-24">
@@ -183,7 +209,7 @@ const Register = () => {
     alt=""
   />
   
-  {/* يمكنك إضافة المزيد من الصور هنا بنفس الطريقة */}
+  
 </div>
         </div>
       </div>
@@ -289,6 +315,7 @@ const Register = () => {
                     />
                   </svg>
                 </div>
+                
                 <input
                   type="password"
                   value={password}
@@ -299,6 +326,23 @@ const Register = () => {
               </div>
             </div>
             <div>
+             
+               <div>
+              <label htmlFor="" className="text-base font-medium text-gray-900">
+                {" "}
+                Phone{" "}
+              </label>
+              <div className="mt-2.5 relative text-gray-400 focus-within:text-gray-600">
+                <input
+                  type="phone"                             
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="07xxxxxxxx"
+                  className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
+                />
+              </div>
+            </div>
+                    <br></br>
               <button
                 type="submit"
                 className="inline-flex items-center justify-center w-full px-4 py-4 text-base font-semibold text-white transition-all duration-200 border border-transparent rounded-md bg-gradient-to-r from-fuchsia-600 to-blue-600 focus:outline-none hover:opacity-80 focus:opacity-80"

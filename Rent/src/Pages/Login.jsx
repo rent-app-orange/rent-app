@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { auth, database } from "../Firebase/Configration";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { ref, get, set  } from "firebase/database";
+import { ref, get, set } from "firebase/database";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/authSlice";
 import { Link, useNavigate } from "react-router-dom";
@@ -13,89 +13,70 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged((user) => {
-  //     if (user) {
-  //       navigate("/");
-  //     }
-  //   });
-  //   return () => unsubscribe();
-  // }, [navigate]);   
-
   const handleLogin = async (e) => {
     e.preventDefault();
-    // التحقق من أن جميع الحقول مملوءة
     if (!email || !password) {
       alert("Please fill in all fields.");
       return;
     }
     try {
-      // تسجيل الدخول باستخدام Firebase Authentication
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-    
+      
       const userRef = ref(database, "users/" + user.uid);
       const snapshot = await get(userRef);
 
       if (snapshot.exists()) {
         const userData = snapshot.val();
 
-          // التحقق مما إذا كان المستخدم محظورًا
-      if (userData.blocked) {
-        alert("Your account is blocked. You cannot log in.");
-        return;
+        if (userData.blocked) {
+          alert("Your account is blocked. You cannot log in.");
+          return;
+        }
+
+        dispatch(setUser({ id: userData.id, name: userData.name, email: userData.email }));
+        navigate("/");
+      } else {
+        alert("User data not found.");
       }
-  
-      // تحديث حالة Redux وتخزين بيانات المستخدم
-      dispatch(setUser({ uid: user.uid, email: user.email }));
-
-      // إعادة توجيه المستخدم إلى الصفحة الرئيسية
-      navigate("/");
-    } else {
-      alert("User data not found.");
+    } catch (error) {
+      console.error("Error logging in:", error.message);
+      alert("Invalid email or password. Please try again.");
     }
-  } catch (error) {
-    console.error("Error logging in:", error.message);
-    alert("Invalid email or password. Please try again.");
-  }
-};
-
+  };
 
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-  
+
       const userRef = ref(database, "users/" + user.uid);
-      const snapshot = await get(userRef); 
+      const snapshot = await get(userRef);
 
-    if (snapshot.exists()) {
-      const userData = snapshot.val();
+      let userData;
 
-      // التحقق مما إذا كان المستخدم محظورًا
+      if (!snapshot.exists()) {
+        userData = {
+          id: user.uid,
+          name: user.displayName,
+          email: user.email,
+          blocked: false,
+        };
+        await set(userRef, userData);
+      } else {
+        userData = snapshot.val();
+      }
+
       if (userData.blocked) {
         alert("Your account is blocked. You cannot log in.");
         return;
       }
-    } else {
-      // إذا لم يكن للمستخدم بيانات، احفظ بياناته في قاعدة البيانات
-      await set(ref(database, "users/" + user.uid), {
-        name: user.displayName,
-        email: user.email,
-        id: user.uid,
-        blocked: false, // بشكل افتراضي غير محظور
-      });
-    }
- 
-      // تحديث حالة Redux وتخزين بيانات المستخدم
-      dispatch(setUser({ uid: user.uid, email: user.email }));
-  
-      // إعادة توجيه المستخدم إلى الصفحة الرئيسية
+
+      dispatch(setUser({ id: userData.id, name: userData.name, email: userData.email }));
       navigate("/");
     } catch (error) {
-      console.error("Error signing in with Google:", error.message);
-      alert("An error occurred during Google login. Please try again.");
+      alert("Error signing in with Google: " + error.message);
     }
   };
 
