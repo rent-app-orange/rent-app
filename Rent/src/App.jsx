@@ -13,6 +13,7 @@ import {
   Virtualtour,
   Cheackout,
   Portal,
+  FindaStay,
   Userprofile,
   
 } from "./Component/exports";
@@ -124,7 +125,14 @@ function App() {
         </Layout>
       ), // Wrap Cheackout in Layout
     },
-
+    {
+      path: "/FindaStay", // 12
+      element: (
+        <Layout>
+          <FindaStay />
+        </Layout>
+      ), // Wrap Cheackout in Layout
+    },
   ]);
   return (
     <>
