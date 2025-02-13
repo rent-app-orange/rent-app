@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateDataForm } from "../Redux/ShowSlice";
 
 export default function PropertyList() {
-  const userId = useSelector(state => state.auth.id);
+  const userId = useSelector((state) => state.auth.user?.id);
+
   const dispatch = useDispatch();
   // const userId = useSelector(state => state.authSlice.user);
   const [formData, setFormData] = useState({
@@ -47,12 +48,17 @@ export default function PropertyList() {
       reader.readAsDataURL(file);
     }
   };
+
+
   async function sendDataToFirebase() {
+    if (!userId) {
+      alert("❌ User ID is missing. Please log in first.");
+      return;
+    }
     try {
       const response = await axios.post(dbUrl, {
         ...formData,
-        images: formData.images, // صورة Base64
-        id:userId
+        id: userId, // إضافة userId للبيانات
       });
       console.log("Data sent successfully:", response.data);
       alert("✅ Data sent successfully ");

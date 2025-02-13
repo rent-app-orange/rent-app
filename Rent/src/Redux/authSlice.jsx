@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   user: null,
-
+  id : 1,
 };
 
 const authSlice = createSlice({
@@ -21,11 +21,6 @@ const authSlice = createSlice({
     },
   },
 });
-
-export const selectUserId = (state) => state.auth.user?.id;
-export const selectUserName = (state) => state.auth.user?.name;
-export const selectUserEmail = (state) => state.auth.user?.email;
-
 
 export const { setUser, clearUser } = authSlice.actions;
 export default authSlice.reducer;
