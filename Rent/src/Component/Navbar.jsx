@@ -1,10 +1,9 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Menu, User } from "lucide-react";
+import { Frown, Import, Menu, User } from "lucide-react";
 import logo from "../assets/Screenshot 2025-02-11 214307.png";
 import owner from "../assets/sign-form.png";
 import Form from "./Form";
-import { getDatabase } from "firebase/database";
 
 function Navbar() {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -125,11 +124,11 @@ function Navbar() {
                   About us
                 </Link>
                 <Link
-                  to="/help-center"
-                  className="block px-4 py-2 hover:bg-[#EC8305] hover:text-white transition"
-                >
-                  Help Center
-                </Link>
+          to="/HelpCenter"
+          className="px-4 py-2 hover:bg-[#EC8305] hover:text-white transition"
+        >
+          Help Center
+        </Link>
                 <Link
                   to="/Cheackout"
                   className="block px-4 py-2 hover:bg-[#EC8305] hover:text-white transition"

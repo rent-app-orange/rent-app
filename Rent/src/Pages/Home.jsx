@@ -73,67 +73,73 @@ const universities = [
   },
 ];
 
-
-
 const properties = [
   {
     id: 1,
-    location: "København, Denmark",
-    host: "Stay with Ole - Consultant",
-    date: "Feb 19 - 24",
-    price: 250,
-    rating: 4.96,
+    location: "Amman, Jordan",
+    host: "Stay with Ahmad - Cozy Apartment",
+    date: "Feb 20 - 25",
+    price: 180,
+    rating: 4.9,
     isBooked: false,
     images: [
-      "https://i.pinimg.com/236x/42/68/7e/42687ecaff8894e645787675b75790aa.jpg",
-      "https://i.pinimg.com/236x/99/fb/9f/99fb9f77d93878dcf4dc7eccd2056aba.jpg",
-      "https://i.pinimg.com/236x/a7/b6/76/a7b6760d51e44fc301c8dfc081abd818.jpg",
+      "https://a0.muscache.com/im/pictures/9a34b46b-dcb3-42b4-9a3b-3dc54c8ffb4c.jpg?im_w=480&im_format=avif",
+      "https://a0.muscache.com/im/pictures/229422e1-bbe3-46c0-9d72-7fcfcf2af51d.jpg?im_w=480&im_format=avif",
+      "https://a0.muscache.com/im/pictures/fdb7aa0a-d6bf-4dc2-b161-5f13c5ab00e1.jpg?im_w=480&im_format=avif",
+      "https://a0.muscache.com/im/pictures/b256a9b3-99db-4489-ab93-3660ec178b8b.jpg?im_w=960&im_format=avif",
+
     ],
   },
   {
     id: 2,
-    location: "Amsterdam, Netherlands",
-    host: "Stay with Eva - Consultant",
-    date: "Mar 1 - 5",
-    price: 300,
-    rating: 4.8,
+    location: "Dead Sea, Jordan",
+    host: "Luxury Resort Suite",
+    date: "Mar 5 - 10",
+    price: 350,
+    rating: 4.95,
     isBooked: true,
     images: [
-      "https://i.pinimg.com/236x/42/68/7e/42687ecaff8894e645787675b75790aa.jpg",
-      "https://i.pinimg.com/236x/99/fb/9f/99fb9f77d93878dcf4dc7eccd2056aba.jpg",
-      "https://i.pinimg.com/236x/a7/b6/76/a7b6760d51e44fc301c8dfc081abd818.jpg",
+      "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTMxMjg2NDMyMTgxNzI4MTY0MA%3D%3D/original/0903754f-a8ab-458d-995b-d364685839fb.jpeg?im_w=960&im_format=avif",
+      "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTMxMjg2NDMyMTgxNzI4MTY0MA%3D%3D/original/ec6733d8-9cea-42ef-9e51-dbd77bb2afe6.jpeg?im_w=480&im_format=avif",
+      "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTMxMjg2NDMyMTgxNzI4MTY0MA%3D%3D/original/ac018721-46e4-4152-a4fd-410e9a20e8ba.jpeg?im_w=480&im_format=avif",
+      "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTMxMjg2NDMyMTgxNzI4MTY0MA%3D%3D/original/6ef30b1f-3590-4fa4-b7a8-b9817658246c.jpeg?im_w=480&im_format=avif",
+
     ],
   },
   {
-    id: 2,
-    location: "Amsterdam, Netherlands",
-    host: "Stay with Eva - Consultant",
-    date: "Mar 1 - 5",
-    price: 300,
-    rating: 4.8,
-    isBooked: true,
+    id: 3,
+    location: "Wadi Rum, Jordan",
+    host: "Stay with Bedouins - Desert Camp",
+    date: "Apr 1 - 5",
+    price: 120,
+    rating: 4.85,
+    isBooked: false,
     images: [
-      "https://i.pinimg.com/236x/42/68/7e/42687ecaff8894e645787675b75790aa.jpg",
-      "https://i.pinimg.com/236x/99/fb/9f/99fb9f77d93878dcf4dc7eccd2056aba.jpg",
-      "https://i.pinimg.com/236x/a7/b6/76/a7b6760d51e44fc301c8dfc081abd818.jpg",
+      "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTM1MDg1OTUzNDg3MjIyMDY0Mw%3D%3D/original/3b8c62c0-0dda-4e9b-a518-642c09e32573.jpeg?im_w=960&im_format=avif",
+      "https://a0.muscache.com/im/pictures/miso/Hosting-1350087520850588086/original/eb3b6c76-8ca0-41f3-8b53-40d7b77173f5.jpeg?im_w=480&im_format=avif",
+      "https://a0.muscache.com/im/pictures/miso/Hosting-1350087520850588086/original/8651737c-8f99-4343-85a3-585d62456f98.jpeg?im_w=480&im_format=avif",
+      "https://a0.muscache.com/im/pictures/miso/Hosting-1350087520850588086/original/0e6a3ff3-9f14-4d9c-8c5c-0c30052bebee.jpeg?im_w=480&im_format=avif",
+
     ],
   },
   {
-    id: 4,
-    location: "Amsterdam, Netherlands",
-    host: "Stay with Eva - Consultant",
-    date: "Mar 1 - 5",
-    price: 300,
-    rating: 4.8,
-    isBooked: true,
+    id: 5,
+    location: "Aqaba, Jordan",
+    host: "Seaside Apartment with Balcony",
+    date: "Feb 28 - Mar 5",
+    price: 220,
+    rating: 4.92,
+    isBooked: false,
     images: [
-      "https://i.pinimg.com/236x/42/68/7e/42687ecaff8894e645787675b75790aa.jpg",
-      "https://i.pinimg.com/236x/99/fb/9f/99fb9f77d93878dcf4dc7eccd2056aba.jpg",
-      "https://i.pinimg.com/236x/a7/b6/76/a7b6760d51e44fc301c8dfc081abd818.jpg",
+      "https://a0.muscache.com/im/pictures/miso/Hosting-944354094310412051/original/c91fb9e9-ec1f-4c46-b69b-20b37de1ca6b.jpeg?im_w=480&im_format=avif",
+      "https://a0.muscache.com/im/pictures/miso/Hosting-944354094310412051/original/78ed40a7-a180-4386-9b33-6aaa8c1e364d.jpeg?im_w=960&im_format=avif",
+      "https://a0.muscache.com/im/pictures/miso/Hosting-944354094310412051/original/afa06c42-e20a-4fc2-be1e-89b95a4bcb80.jpeg?im_w=480&im_format=avif",
+      "https://a0.muscache.com/im/pictures/miso/Hosting-944354094310412051/original/77e66063-cbb7-47af-bc9d-97de8de7e29e.jpeg?im_w=480&im_format=avif",
+
     ],
   },
-  // أضف المزيد من العقارات كما تريد
 ];
+
 
 const Home = () => {
 
@@ -211,6 +217,33 @@ const Home = () => {
     );
   };
 
+
+
+
+
+
+
+
+
+
+  const [searchTerm, setSearchTerm] = useState("");
+  
+  // قائمة البيانات (يمكنك جلبها من API أو قاعدة بيانات)
+  const data = [
+    { id: 1, name: "Amman University", city: "Amman" },
+    { id: 2, name: "Jordan University", city: "Irbid" },
+    { id: 3, name: "Yarmouk University", city: "Irbid" },
+    { id: 4, name: "Petra University", city: "Amman" },
+    { id: 5, name: "Aqaba Technical College", city: "Aqaba" }
+  ];
+
+  // فلترة البيانات بناءً على إدخال المستخدم
+  const filteredResults = data.filter(item =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.city.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+
   return (
 
     <>
@@ -229,16 +262,39 @@ const Home = () => {
             </p>
 
             {/* Search Bar */}
-            <div className="mt-6 flex flex-col sm:flex-row items-center bg-white shadow-lg rounded-lg p-3">
-              <input
-                type="text"
-                placeholder="Search by city, university, or property"
-                className="w-full p-3 border-none focus:outline-none focus:ring-2 focus:ring-[#EC8305] rounded-md transition duration-200"
-              />
-              <button className="mt-3 sm:mt-0 w-full sm:w-auto flex items-center bg-[#EC8305] text-white px-5 py-3 rounded-lg hover:bg-[#d97305] transition duration-200">
-                <FaSearch className="mr-2" /> Search
-              </button>
-            </div>
+            <div className="max-w-lg mx-auto p-6">
+      {/* مربع البحث */}
+      <div className="mt-6 flex flex-col sm:flex-row items-center bg-white shadow-lg rounded-lg p-3">
+        <input
+          type="text"
+          placeholder="Search by city, university, or property"
+          className="w-full p-3 border-none focus:outline-none focus:ring-2 focus:ring-[#EC8305] rounded-md transition duration-200"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button className="mt-3 sm:mt-0 w-full sm:w-auto flex items-center bg-[#EC8305] text-white px-5 py-3 rounded-lg hover:bg-[#d97305] transition duration-200">
+          <FaSearch className="mr-2" /> Search
+        </button>
+      </div>
+
+      {/* عرض النتائج */}
+      {searchTerm && (
+        <div className="mt-4 bg-white shadow-lg rounded-lg p-3">
+          <h3 className="text-lg font-semibold text-gray-700 mb-2">Results:</h3>
+          {filteredResults.length > 0 ? (
+            <ul>
+              {filteredResults.map(item => (
+                <li key={item.id} className="p-2 border-b last:border-none">
+                  <span className="font-semibold text-[#EC8305]">{item.name}</span> - {item.city}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-500">No results found.</p>
+          )}
+        </div>
+      )}
+    </div>
           </div>
 
           {/* Right Side (Animated Image) */}
@@ -344,7 +400,7 @@ const Home = () => {
                 <ChevronRight size={24} />
               </button>
 
-              <button className="absolute top-4 right-4 bg-transparent rounded-full p-2 shadow-md">
+              <button className="absolute top-4 right-4 bg-white rounded-full p-2 shadow-md">
                 <img
                   src={property.isBooked ? calendarIcon : calendarIconAlt}
                   alt="Calendar Icon"
@@ -382,9 +438,16 @@ const Home = () => {
                 <span className="text-yellow-500">⭐ {property.rating}</span>
                 <span className="ml-2 text-green-500">Guest favorite</span>
               </div>
+              <button
+        onClick={() => handleMoreDetails(property.id)}
+        className="mt-4 bg-white text-orange-500 border border-orange-500 py-2 px-4 rounded-lg transition-all duration-300 hover:bg-orange-500 hover:text-white hover:scale-105 focus:outline-none shadow-lg"
+      >
+More Details      </button>
             </div>
+            
           </div>
         ))}
+
       </div>
       {/*  Cards Section End */}
 
@@ -503,7 +566,7 @@ const Home = () => {
         ✨💼 Stylish & Budget-Friendly Student Apartments ✨
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto max-w-[90%] my-20">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto max-w-[90%] my-20">
         {properties.map((property, index) => (
           <div
             key={property.id}
@@ -578,7 +641,7 @@ const Home = () => {
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
       {/*  Cards Section End */}
 
 
