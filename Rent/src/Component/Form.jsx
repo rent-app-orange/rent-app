@@ -1,8 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { updateDataForm } from "../Redux/ShowSlice";
 
 export default function PropertyList() {
+  const userId = useSelector((state) => state.auth.user?.id);
+
+  const dispatch = useDispatch();
+  // const userId = useSelector(state => state.authSlice.user);
   const [formData, setFormData] = useState({
+    id: "",
     name: "",
     description: "",
     location: "",
@@ -10,11 +17,11 @@ export default function PropertyList() {
     images: "", // تخزين الصورة باستخدام Base64
     video: "",
     thumbnail: "",
-    approve: "pending",
+    approve: false,
     booking_duration: "",
     daily_booking: " ",
-    payment: "pending",
-    availability: "pending",
+    payment: false,
+    availability: false,
     room_types: {},
   });
 
@@ -31,16 +38,6 @@ export default function PropertyList() {
       reader.readAsDataURL(file);
     }
   };
-  const handleVideoChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData({ ...formData, video: reader.result }); // حفظ Base64 للصورة
-      };
-      reader.readAsDataURL(file);
-    }
-  };
   const handlethumbChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -51,27 +48,31 @@ export default function PropertyList() {
       reader.readAsDataURL(file);
     }
   };
-  // **إرسال البيانات إلى Firebase باستخدام Axios**
+
+
   async function sendDataToFirebase() {
+    if (!userId) {
+      alert("❌ User ID is missing. Please log in first.");
+      return;
+    }
     try {
-      // إرسال البيانات إلى Firebase Realtime Database باستخدام Axios
       const response = await axios.post(dbUrl, {
-        ...formData, // البيانات الأخرى
-        images: formData.images, // صورة Base64
+        ...formData,
+        id: userId, // إضافة userId للبيانات
       });
       console.log("Data sent successfully:", response.data);
-      alert("✅ Data successfully sent to Firebase");
+      alert("✅ Data sent successfully ");
     } catch (error) {
       console.error("Error sending data:", error);
       alert("❌ Failed to send data to Firebase");
     }
   }
 
-  // **إرسال البيانات بعد تقديم النموذج**
   const handleSubmit = (e) => {
     e.preventDefault();
-    sendDataToFirebase(); // إرسال البيانات إلى Firebase
-    console.log("Entered Data:", formData);
+    dispatch(updateDataForm(formData));
+    sendDataToFirebase();
+    console.log("Entered Data:", ...formData);
   };
 
   return (
@@ -184,21 +185,6 @@ export default function PropertyList() {
             required
           />
         </div>
-        {/* <div className="mt-4">
-          <label
-            className="block font-medium mb-1"
-            style={{ color: "#091057" }}
-          >
-            Upload Video *
-          </label>
-          <input
-            type="file"
-            accept="video/*"
-            onChange={handleVideoChange}
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
-            required
-          />
-        </div> */}
         <div className="mt-4">
           <label
             className="block font-medium mb-1"
@@ -240,14 +226,6 @@ export default function PropertyList() {
           className="mt-4 w-32 h-32 object-cover"
         />
       )}
-      {/* {formData.video && (
-      //   <video
-      //     src={formData.video}
-      //     alt="Preview"
-      //     className="mt-4 w-32 h-32 object-cover"
-      //   // style={{display: "none"}}
-      //   />
-      // )} */}
     </div>
   );
 }

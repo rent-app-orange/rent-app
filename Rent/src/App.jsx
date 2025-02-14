@@ -12,6 +12,10 @@ import {
   Wishlist,
   Virtualtour,
   Cheackout,
+  Portal,
+  FindaStay,
+  Userprofile,
+  
 } from "./Component/exports";
 
 function App() {
@@ -40,14 +44,7 @@ function App() {
         </Layout>
       ), // Wrap Register in Layout
     },
-    {
-      path: "/Userprofile", // 4
-      element: (
-        <Layout>
-  
-        </Layout>
-      ), // Wrap Userprofile in Layout
-    },
+ 
     {
       path: "/About", // 5
       element: (
@@ -109,6 +106,30 @@ function App() {
       element: (
         <Layout>
           <Cheackout />
+        </Layout>
+      ), // Wrap Cheackout in Layout
+    },
+    {
+      path: "/Userprofile", // 12
+      element: (
+        <Layout>
+          <Userprofile />
+        </Layout>
+      ), // Wrap Cheackout in Layout
+    },
+    {
+      path: "/Portal", // 12
+      element: (
+        <Layout>
+          <Portal />
+        </Layout>
+      ), // Wrap Cheackout in Layout
+    },
+    {
+      path: "/FindaStay", // 12
+      element: (
+        <Layout>
+          <FindaStay />
         </Layout>
       ), // Wrap Cheackout in Layout
     },

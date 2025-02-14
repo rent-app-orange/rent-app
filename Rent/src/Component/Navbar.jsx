@@ -4,7 +4,7 @@ import { Menu, User } from "lucide-react";
 import logo from "../assets/Screenshot 2025-02-11 214307.png";
 import owner from "../assets/sign-form.png";
 import Form from "./Form";
-import { getDatabase } from "firebase/database";
+
 
 function Navbar() {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
