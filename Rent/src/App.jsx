@@ -65,7 +65,7 @@ function App() {
       ), // Wrap Wishlist in Layout
     },
     {
-      path: "/Propertydetils", // 7
+      path: "/Propertydetails", // 7
       element: (
         <Layout>
           <Propertydetils />
