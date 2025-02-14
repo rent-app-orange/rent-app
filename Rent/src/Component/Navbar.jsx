@@ -1,14 +1,15 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import { Menu, User } from "lucide-react";
 import logo from "../assets/Screenshot 2025-02-11 214307.png";
 import owner from "../assets/sign-form.png";
-import { Menu, User } from "lucide-react";
+import Form from "./Form";
+import { getDatabase } from "firebase/database";
 
 function Navbar() {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [isFormOpen, setFormOpen] = useState(false); // حالة الفورم
   const dropdownRef = useRef(null);
-
-
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -17,64 +18,67 @@ function Navbar() {
   const closeDropdown = () => {
     setTimeout(() => {
       setDropdownOpen(false);
-    }, 150); // يعطي مهلة قصيرة حتى لا يغلق قبل اختيار رابط
+    }, 150);
+  };
+
+  const toggleForm = () => {
+    setFormOpen(!isFormOpen);
   };
 
   return (
     <div className="bg-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
-        
         {/* Logo and Title */}
         <div className="flex items-center mb-4 md:mb-0">
           <img src={logo} alt="Logo" className="h-12 mr-2" />
           <span className="text-[#EC8305] text-2xl font-bold">HabiRent</span>
         </div>
 
-        {/* main  */}
+        {/* Main Navigation */}
         <div className="flex justify-center items-center space-x-6 text-gray-700 text-lg font-medium">
-  <Link
-    to="/"
-    className="hover:text-[#EC8305] active:text-[#EC8305] transition duration-300"
-  >
-    Home
-  </Link>
-
-
-
-  <Link
-    to="/FindaStay"
-    className="hover:text-[#EC8305] active:text-[#EC8305] transition duration-300"
-  >
-    Find a Stay
-  </Link>
-  <Link
-    to="/about"
-    className="hover:text-[#EC8305] active:text-[#EC8305] transition duration-300"
-  >
-    About Us
-  </Link>
-
-
-
-  <Link
-    to="/contact"
-    className="hover:text-[#EC8305] active:text-[#EC8305] transition duration-300"
-  >
-    Contact Us
-  </Link>
-</div>
-
-
+          <Link to="/" className="hover:text-[#EC8305] transition duration-300">
+            Home
+          </Link>
+          <Link
+            to="/FindaStay"
+            className="hover:text-[#EC8305] transition duration-300"
+          >
+            Find a Stay
+          </Link>
+          <Link
+            to="/about"
+            className="hover:text-[#EC8305] transition duration-300"
+          >
+            About Us
+          </Link>
+          <Link
+            to="/contact"
+            className="hover:text-[#EC8305] transition duration-300"
+          >
+            Contact Us
+          </Link>
+        </div>
 
         {/* User Options */}
         <div className="flex items-center space-x-4 relative">
-          {/* <Link to="/your-home" className="text-gray-600 hidden md:block hover:text-[#EC8305] transition">
-          </Link> */}
-
-          <button className="relative">
+          {/* زر لعرض الفورم */}
+          <button className="relative" onClick={toggleForm}>
             <img src={owner} alt="Owner Icon" className="h-10 cursor-pointer" />
           </button>
 
+          {/* إظهار الفورم عند النقر على الزر */}
+          {isFormOpen && (
+            <div className="absolute top-14 right-0 w-[500px] bg-white shadow-lg p-4 rounded-lg z-50">
+              <Form />
+            </div>
+          )}
+
+
+
+
+
+
+          {/* Dropdown Menu */}
           <div className="relative">
             <button
               className="flex items-center border rounded-full px-3 py-2 hover:shadow-md transition focus:outline-none"
@@ -92,14 +96,12 @@ function Navbar() {
                 <Link
                   to="/Register"
                   className="block px-4 py-2 hover:bg-[#EC8305] hover:text-white transition"
-                  onMouseDown={(e) => e.preventDefault()} // يمنع الإغلاق قبل النقر
                 >
                   Sign up
                 </Link>
                 <Link
                   to="/Login"
                   className="block px-4 py-2 hover:bg-[#EC8305] hover:text-white transition"
-                  onMouseDown={(e) => e.preventDefault()}
                 >
                   Log in
                 </Link>
@@ -107,36 +109,32 @@ function Navbar() {
                 <Link
                   to="/Userprofile"
                   className="block px-4 py-2 hover:bg-[#EC8305] hover:text-white transition"
-                  onMouseDown={(e) => e.preventDefault()} // يمنع الإغلاق قبل النقر
                 >
-User Profile                </Link>
+                  User Profile
+                </Link>
                 <Link
                   to="/contact"
                   className="block px-4 py-2 hover:bg-[#EC8305] hover:text-white transition"
-                  onMouseDown={(e) => e.preventDefault()}
                 >
                   Contact
                 </Link>
-                {/* <Link
-                  to="/your-home"
-                  className="block px-4 py-2 hover:bg-[#EC8305] hover:text-white transition"
-                  onMouseDown={(e) => e.preventDefault()}
-                >
-                  Airbnb your home
-                </Link> */}
                 <Link
                   to="/about"
                   className="block px-4 py-2 hover:bg-[#EC8305] hover:text-white transition"
-                  onMouseDown={(e) => e.preventDefault()}
                 >
                   About us
                 </Link>
                 <Link
                   to="/help-center"
                   className="block px-4 py-2 hover:bg-[#EC8305] hover:text-white transition"
-                  onMouseDown={(e) => e.preventDefault()}
                 >
                   Help Center
+                </Link>
+                <Link
+                  to="/Cheackout"
+                  className="block px-4 py-2 hover:bg-[#EC8305] hover:text-white transition"
+                >
+                LogOut
                 </Link>
               </div>
             )}
