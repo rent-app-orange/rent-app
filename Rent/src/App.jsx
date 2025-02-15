@@ -46,7 +46,7 @@ function App() {
         </Layout>
       ), // Wrap Register in Layout
     },
- 
+
     {
       path: "/About", // 5
       element: (
@@ -63,6 +63,7 @@ function App() {
         </Layout>
       ), // Wrap Wishlist in Layout
     },
+
     {
       path: "/PropertyDetails",
       element: (
@@ -71,6 +72,7 @@ function App() {
         </Layout>
       ),
     },
+
     {
       path: "/Dashboard", // 8
       element: (
@@ -135,24 +137,15 @@ function App() {
         </Layout>
       ), // Wrap Cheackout in Layout
     },
-   
-   
-   
-   
-   
+
     {
       path: "/HelpCenter", // ✅ إزالة المسافة الزائدة
       element: (
         <Layout>
           <HelpCenter />
         </Layout>
-      ), 
+      ),
     },
-
-
-
-
-
   ]);
   return (
     <>

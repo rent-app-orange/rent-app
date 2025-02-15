@@ -81,7 +81,7 @@ const properties = [
     location: "Amman, Jordan",
     host: "Stay with Ahmad - Cozy Apartment",
     date: "Feb 20 - 25",
-    price: 180,
+    price: 30,
     rating: 4.9,
     isBooked: false,
     images: [
@@ -97,7 +97,7 @@ const properties = [
     location: "Dead Sea, Jordan",
     host: "Luxury Resort Suite",
     date: "Mar 5 - 10",
-    price: 350,
+    price: 40,
     rating: 4.95,
     isBooked: true,
     images: [
@@ -113,7 +113,7 @@ const properties = [
     location: "Wadi Rum, Jordan",
     host: "Stay with Bedouins - Desert Camp",
     date: "Apr 1 - 5",
-    price: 120,
+    price: 35,
     rating: 4.85,
     isBooked: false,
     images: [
@@ -129,7 +129,7 @@ const properties = [
     location: "Aqaba, Jordan",
     host: "Seaside Apartment with Balcony",
     date: "Feb 28 - Mar 5",
-    price: 220,
+    price: 50,
     rating: 4.92,
     isBooked: false,
     images: [
@@ -457,7 +457,7 @@ const Home = () => {
               <h3 className="text-lg font-semibold">{property.location}</h3>
               <p className="text-gray-600">{property.host}</p>
               <p className="mt-2 text-gray-800 text-sm">{property.date}</p>
-              <p className="mt-4 text-xl font-bold">${property.price}/night</p>
+              <p className="mt-4 text-xl font-bold">{property.price} JD /night</p>
               <div className="flex items-center mt-2">
                 <span className="text-yellow-500">⭐ {property.rating}</span>
                 <span className="ml-2 text-green-500">Guest favorite</span>
@@ -611,7 +611,7 @@ More Details      </button>
                 <div className="p-4">
                   <h2 className="text-lg font-bold">{item.location || "No Location"}</h2>
                   <p className="text-gray-500">{item.name || "No Name"}</p>
-                  <p className="text-xl font-bold mt-2">${item.price || "N/A"}/month</p>
+                  <p className="text-xl font-bold mt-2">{item.price || "N/A"}JD/Night</p>
 
                   {/* 🔹 زر "More Details" */}
                   <button

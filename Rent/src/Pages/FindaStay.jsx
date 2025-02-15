@@ -1,12 +1,15 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { fetchselectedCourt } from "../Redux/propertySlice";
 import { Link } from "react-router-dom";
-
 export default function FindStay() {
   const url =
     "https://rent-app-a210b-default-rtdb.firebaseio.com/student_housing.json";
   const [housingData, setHousingData] = useState([]);
   const [filterType, setFilterType] = useState("all");
+  const dispatch = useDispatch();
+  const selectedStadium = useSelector((state) => state.courtInfo.selectedCourt);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,9 +36,19 @@ export default function FindStay() {
     fetchData();
   }, [filterType]);
 
+  // Track the updates to selectedStadium
+  useEffect(() => {
+    console.log(selectedStadium); // Log when selectedStadium changes
+  }, [selectedStadium]);
+
+  function itemInfo(item) {
+    dispatch(fetchselectedCourt(item)); // Dispatching the selected item
+    // No need to log selectedStadium here, as it's updated asynchronously
+  }
+
   return (
     <div className="p-6">
-      <h2 className="text-4xl font-bold text-[#091057] mb-6 text-center tracking-wide ">
+      <h2 className="text-4xl font-bold text-[#091057] mb-6 text-center tracking-wide">
         ✨ Available Apartments and Studios✨
       </h2>
 
@@ -65,12 +78,15 @@ export default function FindStay() {
               >
                 {item.isBooked ? "Booked" : "Available"}
               </div>
-              <Link to="/src/Pages/Propertydetils.jsx">
-                <img
-                  src={item.images || "https://via.placeholder.com/150"}
-                  alt={item.name || "No Name"}
-                  className="w-full h-[300px] object-cover transition-opacity duration-500"
-                />
+
+              <Link to={"/PropertyDetails"}>
+                <button onClick={() => itemInfo(item)}>
+                  <img
+                    src={item.images || "https://via.placeholder.com/150"}
+                    alt={item.name || "No Name"}
+                    className="w-full h-[300px] object-cover transition-opacity duration-500"
+                  />
+                </button>
               </Link>
             </div>
 
