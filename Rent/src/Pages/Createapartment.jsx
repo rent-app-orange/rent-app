@@ -1,11 +1,22 @@
-import React from 'react'
 
-function Createapartment() {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+const FindaStay = () => {
+return(
 
-export default Createapartment
+    <h1>hello</h1>
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+};
+
+export default FindaStay;

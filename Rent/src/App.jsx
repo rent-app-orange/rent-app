@@ -5,7 +5,6 @@ import {
   Login,
   Register,
   Createapartment,
-  Propertydetils,
   Dashboard,
   Contact,
   About,
@@ -15,8 +14,11 @@ import {
   Portal,
   FindaStay,
   Userprofile,
-  
+  PropertyDetails,
 } from "./Component/exports";
+import HelpCenter from "./Pages/HelpCenter"
+
+
 
 function App() {
   const router = createBrowserRouter([
@@ -62,12 +64,12 @@ function App() {
       ), // Wrap Wishlist in Layout
     },
     {
-      path: "/Propertydetails", // 7
+      path: "/PropertyDetails",
       element: (
         <Layout>
-          <Propertydetils />
+          <PropertyDetails />
         </Layout>
-      ), // Wrap Propertydetils in Layout
+      ),
     },
     {
       path: "/Dashboard", // 8
@@ -133,6 +135,24 @@ function App() {
         </Layout>
       ), // Wrap Cheackout in Layout
     },
+   
+   
+   
+   
+   
+    {
+      path: "/HelpCenter", // ✅ إزالة المسافة الزائدة
+      element: (
+        <Layout>
+          <HelpCenter />
+        </Layout>
+      ), 
+    },
+
+
+
+
+
   ]);
   return (
     <>
