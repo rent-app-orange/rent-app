@@ -9,6 +9,8 @@ const firebaseConfig = {
   projectId: "rent-app-a210b",
   storageBucket: "rent-app-a210b.appspot.com",
   messagingSenderId: "760730745676",
+  googleMapsApiKey: "AIzaSyChiqY4rfnRHf1dYwZDRI6OmNBcSjxzQjg" ,
+
   appId: "1:760730745676:web:2c0084a4b63d1ca0336de9",
 };
 

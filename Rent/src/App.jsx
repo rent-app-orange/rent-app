@@ -5,7 +5,6 @@ import {
   Login,
   Register,
   Createapartment,
-  Propertydetils,
   Dashboard,
   Contact,
   About,
@@ -15,9 +14,10 @@ import {
   Portal,
   FindaStay,
   Userprofile,
- 
+  PropertyDetails,
 } from "./Component/exports";
 import HelpCenter from "./Pages/HelpCenter"
+
 
 
 function App() {
@@ -64,12 +64,12 @@ function App() {
       ), // Wrap Wishlist in Layout
     },
     {
-      path: "/Propertydetils", // 7
+      path: "/PropertyDetails",
       element: (
         <Layout>
-          <Propertydetils />
+          <PropertyDetails />
         </Layout>
-      ), // Wrap Propertydetils in Layout
+      ),
     },
     {
       path: "/Dashboard", // 8

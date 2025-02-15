@@ -11,6 +11,8 @@ import { FaBroom, FaUtensils, FaWifi, FaChalkboardTeacher } from "react-icons/fa
 import help from "../assets/24-hours-support.png";
 import done from "../assets/24-hours-support.png";
 import { IoClose } from "react-icons/io5";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 
 const universities = [
@@ -142,6 +144,28 @@ const properties = [
 
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const [housingData, setHousingData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("https://rent-app-a210b-default-rtdb.firebaseio.com/student_housing.json")
+      .then((response) => {
+        if (response.data) {
+          // تحويل البيانات من كائن إلى مصفوفة
+          const propertiesArray = Object.keys(response.data).map((key) => ({
+            id: key,
+            ...response.data[key],
+          }));
+          setHousingData(propertiesArray);
+        }
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+
+
+
 
 
   const [showServices, setShowServices] = useState(false);
@@ -559,13 +583,52 @@ More Details      </button>
 
 
 
-
-
       {/*  Cards Section Start */}
-      <h2 className="text-4xl font-bold text-[#091057] mb-6  text-center  tracking-wide ">
-        ✨💼 Stylish & Budget-Friendly Student Apartments ✨
-      </h2>
+      <h2 className="text-4xl font-bold text-[#091057] mb-6 text-center tracking-wide">
+  ✨🏡 Your Next Home Awaits – Explore Now! ✨
+</h2>
 
+
+      <div className="p-6">
+      {/* 🔹 عرض العقارات بتمرير أفقي */}
+      <div className="overflow-x-auto whitespace-nowrap py-8 px-15">
+        <div className="flex space-x-4 px-4 snap-x snap-mandatory">
+          {housingData.length > 0 ? (
+            housingData.map((item, index) => (
+              <div
+                key={item.id ? item.id : `item-${index}`}
+                className="min-w-[300px] border rounded-lg shadow-lg overflow-hidden bg-white snap-start p-4"
+              >
+                <img
+                  src={
+                    Array.isArray(item.images)
+                      ? item.images[0]
+                      : item.images || "https://via.placeholder.com/150"
+                  }
+                  alt={item.name || "No Name"}
+                  className="w-full h-48 object-cover"
+                />
+                <div className="p-4">
+                  <h2 className="text-lg font-bold">{item.location || "No Location"}</h2>
+                  <p className="text-gray-500">{item.name || "No Name"}</p>
+                  <p className="text-xl font-bold mt-2">${item.price || "N/A"}/month</p>
+
+                  {/* 🔹 زر "More Details" */}
+                  <button
+                    onClick={() => handleMoreDetails(item.id)}
+                    className="mt-4 bg-white text-orange-500 border border-orange-500 py-2 px-4 rounded-lg transition-all duration-300 hover:bg-orange-500 hover:text-white hover:scale-105 focus:outline-none shadow-lg w-35"
+                  >
+                    More Details
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-center text-gray-500">No properties available</p>
+          )}
+        </div>
+      </div>
+    </div>
       {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto max-w-[90%] my-20">
         {properties.map((property, index) => (
           <div
@@ -707,13 +770,13 @@ More Details      </button>
           </div>
 
           <div className="mt-12">
-            <a
-              href="#"
-              className="bg-[#EC8305] text-white py-3 px-6 text-lg font-semibold rounded-lg hover:bg-[#d97305] transition duration-300 shadow-lg transform hover:scale-105"
-            >
-              Start Now
-            </a>
-          </div>
+      <button
+        onClick={() => navigate("/FindaStay")}
+        className="bg-[#EC8305] text-white py-3 px-6 text-lg font-semibold rounded-lg hover:bg-[#d97305] transition duration-300 shadow-lg transform hover:scale-105"
+      >
+        Start Now
+      </button>
+    </div>
         </div>
       </section>
 
